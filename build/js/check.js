@@ -17,9 +17,7 @@ function getMessage(a, b) {
   } else if (Object.prototype.toString.call( a ) === '[object Array]' && Object.prototype.toString.call( b ) === '[object Array]') {
     var artifactsSquare = 0;
     for (i = 0; i < a.length; i++) {
-      for (var j = 0; j < b.length; j++) {
-        artifactsSquare += a[i] * b[j];
-      }
+      artifactsSquare += a[i] * b[i];
     }
     message = 'Общая площадь артефактов сжатия: ' + artifactsSquare + ' пикселей';
   }
