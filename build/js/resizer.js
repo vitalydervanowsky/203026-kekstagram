@@ -111,7 +111,7 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
-      // Отрисовка полутени за пределами области видимости. Координаты задаются
+      // Отрисовка полутени за пределами области выделения. Координаты задаются
       // от центра.
       this._ctx.beginPath();
 
@@ -123,11 +123,13 @@
         this._container.width,
         this._container.height);
       // Маленький прямоугольник
+      var smallRectStartPos = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth;
+      var smallRectSide = this._resizeConstraint.side + this._ctx.lineWidth / 2;
       this._ctx.rect(
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
-          this._resizeConstraint.side + this._ctx.lineWidth / 2,
-          this._resizeConstraint.side + this._ctx.lineWidth / 2);
+          smallRectStartPos,
+          smallRectStartPos,
+          smallRectSide,
+          smallRectSide);
 
       this._ctx.fill('evenodd');
 
