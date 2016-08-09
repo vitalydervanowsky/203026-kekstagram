@@ -115,7 +115,7 @@
       var initPos = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
       var way = 0;
       var radius = 3;
-      do {
+      while (way < this._resizeConstraint.side) {
         var centerX = initPos + way;
         this._ctx.beginPath();
         this._ctx.arc(centerX, initPos, radius, 0, 2 * Math.PI, false);
@@ -130,7 +130,7 @@
         this._ctx.fill();
         this._ctx.closePath();
         way += 12;
-      } while (way < this._resizeConstraint.side);
+      }
 
       // Отрисовка полутени за пределами области выделения. Координаты задаются
       // от центра.
@@ -162,15 +162,7 @@
         this._resizeConstraint.side + ' x ' + this._resizeConstraint.side,
         0,
         (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 - 10);
-/*
-      // Отрисовка прямоугольника, обозначающего область изображения после
-      // кадрирования. Координаты задаются от центра.
-      this._ctx.strokeRect(
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2);
-*/
+
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
