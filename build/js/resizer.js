@@ -111,6 +111,35 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
+      // Отрисовка полутени за пределами области видимости. Координаты задаются
+      // от центра.
+      this._ctx.beginPath();
+
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      // Большой прямоугольник
+      this._ctx.rect(
+        -this._container.width / 2,
+        -this._container.height / 2,
+        this._container.width,
+        this._container.height);
+      // Маленький прямоугольник
+      this._ctx.rect(
+          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
+          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
+          this._resizeConstraint.side + this._ctx.lineWidth / 2,
+          this._resizeConstraint.side + this._ctx.lineWidth / 2);
+
+      this._ctx.fill('evenodd');
+
+      // Надпись с разрешением картинки
+      this._ctx.fillStyle = 'white';
+      this._ctx.font = '15px Tahoma';
+      this._ctx.textAlign = 'center';
+      this._ctx.fillText(
+        this._resizeConstraint.side + ' x ' + this._resizeConstraint.side,
+        0,
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 - 10);
+
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
       this._ctx.strokeRect(
