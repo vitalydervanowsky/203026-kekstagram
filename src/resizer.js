@@ -105,28 +105,39 @@
       this._ctx.drawImage(this._image, displX, displY);
 
       // #9 Canvas. Самое дополнительное задание
+      // Толщина линии
       this._ctx.lineWidth = 3;
-      var initPos = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth;
-      var step = 15;
+      // Координата верхней левой точки, поскольку форма вырезания квадрат,
+      // INITPOS_X === INITPOS_Y
+      var INITPOS = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth;
+      // Длина штриха молнии
+      var STEP = 15;
+      // Переменная, указывающая направление рисования штриха: вверх-вниз или влево-вправо
       var i = -1;
-      var posX = initPos;
-      var posY = initPos - i * step;
-      var finishY = initPos + step;
-      while ((posX - initPos + step) < this._resizeConstraint.side) {
-        // Чтобы линия не заходила в облось под оверлеем, надо убрать из условия
-        // цикла " + step"
+      // Начальные точки штриха
+      var posX = INITPOS;
+      var posY = INITPOS + STEP;
+      // Координата Y конечной точки штриха
+      var finishY = INITPOS + STEP;
+      while ((posX - INITPOS + STEP) < this._resizeConstraint.side) {
+        // Чтобы линия не заходила в область под оверлеем, надо убрать из условия
+        // цикла " + STEP"
         // Рисуем верхнюю горизонталь
         this._ctx.beginPath();
         this._ctx.moveTo(posX, posY);
-        var finishX = posX + step;
-        finishY = finishY + i * step;
+        // Координата X конечной точки штриха
+        var finishX = posX + STEP;
+        finishY = finishY + i * STEP;
         this._ctx.lineTo(finishX, finishY);
         this._ctx.stroke();
         this._ctx.closePath();
+        // Начальная и конечная координаты Y с учетом толщины штриха
+        var posY2 = -posY - this._ctx.lineWidth * 1.5;
+        var finishY2 = -finishY - this._ctx.lineWidth * 1.5;
         // Рисуем нижнюю горизонталь
         this._ctx.beginPath();
-        this._ctx.moveTo(posX, -posY - this._ctx.lineWidth * 1.5);
-        this._ctx.lineTo(finishX, -finishY - this._ctx.lineWidth * 1.5);
+        this._ctx.moveTo(posX, posY2);
+        this._ctx.lineTo(finishX, finishY2);
         this._ctx.stroke();
         this._ctx.closePath();
         // Рисуем левую вертикаль
@@ -137,13 +148,15 @@
         this._ctx.closePath();
         // Рисуем правую вертикаль
         this._ctx.beginPath();
-        this._ctx.moveTo(-posY - this._ctx.lineWidth * 1.5, posX);
-        this._ctx.lineTo(-finishY - this._ctx.lineWidth * 1.5, finishX);
+        this._ctx.moveTo(posY2, posX);
+        this._ctx.lineTo(finishY2, finishX);
         this._ctx.stroke();
         this._ctx.closePath();
 
+        // Смена направления рисования штриха
         i = -i;
-        posX = posX + step - this._ctx.lineWidth / 2;
+        // Смена начальных координат следующего штриха
+        posX = posX + STEP - this._ctx.lineWidth / 2;
         posY = finishY;
       }
 
