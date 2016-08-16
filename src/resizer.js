@@ -105,33 +105,22 @@
       this._ctx.drawImage(this._image, displX, displY);
 
       // #9 Canvas. Самое дополнительное задание
-      // Толщина линии
       this._ctx.lineWidth = 3;
-      // Координата верхней левой точки, поскольку форма вырезания квадрат,
-      // INITPOS_X === INITPOS_Y
       var INITPOS = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth;
-      // Длина штриха молнии
       var STEP = 15;
-      // Переменная, указывающая направление рисования штриха: вверх-вниз или влево-вправо
       var i = -1;
-      // Начальные точки штриха
       var posX = INITPOS;
       var posY = INITPOS + STEP;
-      // Координата Y конечной точки штриха
       var finishY = INITPOS + STEP;
       while ((posX - INITPOS + STEP) < this._resizeConstraint.side) {
-        // Чтобы линия не заходила в область под оверлеем, надо убрать из условия
-        // цикла " + STEP"
         // Рисуем верхнюю горизонталь
         this._ctx.beginPath();
         this._ctx.moveTo(posX, posY);
-        // Координата X конечной точки штриха
         var finishX = posX + STEP;
         finishY = finishY + i * STEP;
         this._ctx.lineTo(finishX, finishY);
         this._ctx.stroke();
         this._ctx.closePath();
-        // Начальная и конечная координаты Y с учетом толщины штриха
         var posY2 = -posY - this._ctx.lineWidth * 1.5;
         var finishY2 = -finishY - this._ctx.lineWidth * 1.5;
         // Рисуем нижнюю горизонталь
@@ -153,9 +142,7 @@
         this._ctx.stroke();
         this._ctx.closePath();
 
-        // Смена направления рисования штриха
         i = -i;
-        // Смена начальных координат следующего штриха
         posX = posX + STEP - this._ctx.lineWidth / 2;
         posY = finishY;
       }
