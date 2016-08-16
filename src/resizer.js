@@ -88,15 +88,8 @@
       // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
       // чего-либо с другой обводкой.
 
-      // Толщина линии.
-      this._ctx.lineWidth = 6;
       // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
-      // Размер штрихов. Первый элемент массива задает длину штриха, второй
-      // расстояние между соседними штрихами.
-      this._ctx.setLineDash([15, 10]);
-      // Смещение первого штриха от начала линии.
-      this._ctx.lineDashOffset = 7;
 
       // Сохранение состояния канваса.
       this._ctx.save();
@@ -111,25 +104,47 @@
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
 
-      // #8 Canvas. Дополнительное задание
-      var initPos = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
-      var way = 0;
-      var radius = 3;
-      while (way < this._resizeConstraint.side) {
-        var centerX = initPos + way;
+      // #9 Canvas. Самое дополнительное задание
+      this._ctx.lineWidth = 3;
+      var INITPOS = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth;
+      var STEP = 15;
+      var i = -1;
+      var posX = INITPOS;
+      var posY = INITPOS + STEP;
+      var finishY = INITPOS + STEP;
+      while ((posX - INITPOS + STEP) < this._resizeConstraint.side) {
+        // Рисуем верхнюю горизонталь
         this._ctx.beginPath();
-        this._ctx.arc(centerX, initPos, radius, 0, 2 * Math.PI, false);
-        this._ctx.arc(centerX, -initPos - this._ctx.lineWidth * 1.5, radius, 0, 2 * Math.PI, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
+        this._ctx.moveTo(posX, posY);
+        var finishX = posX + STEP;
+        finishY = finishY + i * STEP;
+        this._ctx.lineTo(finishX, finishY);
+        this._ctx.stroke();
         this._ctx.closePath();
-        var centerY = initPos + way;
+        var posY2 = -posY - this._ctx.lineWidth * 1.5;
+        var finishY2 = -finishY - this._ctx.lineWidth * 1.5;
+        // Рисуем нижнюю горизонталь
         this._ctx.beginPath();
-        this._ctx.arc(initPos, centerY, radius, 0, 2 * Math.PI, false);
-        this._ctx.arc(-initPos - this._ctx.lineWidth * 1.5, centerY, radius, 0, 2 * Math.PI, false);
-        this._ctx.fill();
+        this._ctx.moveTo(posX, posY2);
+        this._ctx.lineTo(finishX, finishY2);
+        this._ctx.stroke();
         this._ctx.closePath();
-        way += 12;
+        // Рисуем левую вертикаль
+        this._ctx.beginPath();
+        this._ctx.moveTo(posY, posX);
+        this._ctx.lineTo(finishY, finishX);
+        this._ctx.stroke();
+        this._ctx.closePath();
+        // Рисуем правую вертикаль
+        this._ctx.beginPath();
+        this._ctx.moveTo(posY2, posX);
+        this._ctx.lineTo(finishY2, finishX);
+        this._ctx.stroke();
+        this._ctx.closePath();
+
+        i = -i;
+        posX = posX + STEP - this._ctx.lineWidth / 2;
+        posY = finishY;
       }
 
       // Отрисовка полутени за пределами области выделения. Координаты задаются
