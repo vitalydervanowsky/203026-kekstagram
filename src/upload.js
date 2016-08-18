@@ -87,6 +87,38 @@
    */
   var resizeForm = document.forms['upload-resize'];
 
+  // start of validation
+  // var INIT_POS_LEFT = (currentResizer._image.naturalWidth - currentResizer._resizeConstraint.side) / 2;
+  // var INIT_POS_TOP = (currentResizer._image.naturalHeight - currentResizer._resizeConstraint.side) / 2;
+  var resizeX = resizeForm.querySelector('#resize-x');
+  var resizeY = resizeForm.querySelector('#resize-y');
+  var resizeSize = resizeForm.querySelector('#resize-size');
+
+  resizeX.min = 0;
+  resizeX.max = currentResizer._image.naturalWidth;
+  // resizeX.value = INIT_POS_LEFT;
+  resizeY.min = 0;
+  resizeY.max = currentResizer._image.naturalHeight;
+  // resizeY.value = INIT_POS_TOP;
+  resizeSize.value = currentResizer._resizeConstraint.side;
+
+  var setSizeConstraint = function(sizeCrop, posStartX, posStartY) {
+    sizeCrop.min = 1;
+    sizeCrop.max = Math.min((currentResizer._image.naturalWidth - posStartX), (currentResizer._image.naturalHeight - posStartY));
+  };
+
+  resizeForm.onchange = function() {
+    setSizeConstraint(resizeSize, resizeX.value, resizeY.value);
+  };
+
+  setSizeConstraint(resizeSize, resizeX.value, resizeY.value);
+
+  // if (((resizeX.value + resizeSize.value) < currentResizer._image.naturalWidth) &&
+  //   ((resizeY.value + resizeSize.value) < currentResizer._image.naturalHeight)) {
+  //   return true;
+  // }
+  // end of validation
+
   /**
    * Форма добавления фильтра.
    * @type {HTMLFormElement}
