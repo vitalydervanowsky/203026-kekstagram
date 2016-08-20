@@ -160,6 +160,40 @@
           resizeForm.classList.remove('invisible');
 
           hideMessage();
+
+          // start of validation
+          var resizeX = resizeForm.querySelector('#resize-x');
+          var resizeY = resizeForm.querySelector('#resize-y');
+          var resizeSize = resizeForm.querySelector('#resize-size');
+
+          resizeX.min = 0;
+          resizeX.max = currentResizer._image.naturalWidth;
+          resizeY.min = 0;
+          resizeY.max = currentResizer._image.naturalHeight;
+
+          var setSizeConstraint = function(sizeCrop, posStartX, posStartY) {
+            var submitBtn = resizeForm.querySelector('#resize-fwd');
+
+            sizeCrop.min = 1;
+            sizeCrop.max = Math.min(
+              (currentResizer._image.naturalWidth - posStartX),
+              (currentResizer._image.naturalHeight - posStartY));
+
+            if (posStartX === '' || posStartY === '' || sizeCrop.value === '') {
+              submitBtn.disabled = true;
+            } else if ((posStartX + sizeCrop.value) <= currentResizer._image.naturalWidth &&
+              (posStartY + sizeCrop.value) <= currentResizer._image.naturalHeight) {
+              submitBtn.disabled = false;
+            }
+          };
+
+          resizeForm.onchange = function() {
+            setSizeConstraint(resizeSize, resizeX.value, resizeY.value);
+          };
+
+          setSizeConstraint(resizeSize, resizeX.value, resizeY.value);
+
+          // end of validation
         };
 
         fileReader.readAsDataURL(element.files[0]);
