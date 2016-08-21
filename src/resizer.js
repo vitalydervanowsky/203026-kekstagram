@@ -174,7 +174,7 @@
       this._ctx.font = '15px Tahoma';
       this._ctx.textAlign = 'center';
       this._ctx.fillText(
-        this._resizeConstraint.side + ' x ' + this._resizeConstraint.side,
+        this._image.naturalWidth + ' x ' + this._image.naturalHeight,
         0,
         (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 - 10);
 
