@@ -167,9 +167,9 @@
           var resizeSize = resizeForm.querySelector('#resize-size');
 
           resizeX.min = 0;
-          resizeX.max = currentResizer._image.naturalWidth;
+          resizeX.max = currentResizer._image.naturalWidth - 1;
           resizeY.min = 0;
-          resizeY.max = currentResizer._image.naturalHeight;
+          resizeY.max = currentResizer._image.naturalHeight - 1;
 
           var setSizeConstraint = function(sizeCrop, posStartX, posStartY) {
             var submitBtn = resizeForm.querySelector('#resize-fwd');
@@ -179,10 +179,12 @@
               (currentResizer._image.naturalWidth - posStartX),
               (currentResizer._image.naturalHeight - posStartY));
 
+            var condition = (posStartX + sizeCrop.value) <= currentResizer._image.naturalWidth &&
+              (posStartY + sizeCrop.value) <= currentResizer._image.naturalHeight;
+
             if (posStartX === '' || posStartY === '' || sizeCrop.value === '') {
               submitBtn.disabled = true;
-            } else if ((posStartX + sizeCrop.value) <= currentResizer._image.naturalWidth &&
-              (posStartY + sizeCrop.value) <= currentResizer._image.naturalHeight) {
+            } else if (condition) {
               submitBtn.disabled = false;
             }
           };
