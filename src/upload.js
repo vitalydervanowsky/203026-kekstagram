@@ -179,12 +179,12 @@
               (currentResizer._image.naturalWidth - posStartX),
               (currentResizer._image.naturalHeight - posStartY));
 
-            var condition = (posStartX + sizeCrop.value) <= currentResizer._image.naturalWidth &&
+            var areValuesValid = (posStartX + sizeCrop.value) <= currentResizer._image.naturalWidth &&
               (posStartY + sizeCrop.value) <= currentResizer._image.naturalHeight;
 
-            if (posStartX === '' || posStartY === '' || sizeCrop.value === '') {
+            if (!posStartX || !posStartY || !sizeCrop.value) {
               submitBtn.disabled = true;
-            } else if (condition) {
+            } else if (areValuesValid) {
               submitBtn.disabled = false;
             }
           };
