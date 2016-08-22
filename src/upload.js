@@ -287,7 +287,8 @@
     }
 
     var getFullDays = function(date) {
-      return Math.floor(date / 1000 / 60 / 60 / 24);
+      var result = Math.floor(date / 1000 / 60 / 60 / 24);
+      return result;
     };
 
     var lifetime = getFullDays(today) - getFullDays(birthDayGraceHopper);
