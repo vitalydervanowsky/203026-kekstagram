@@ -98,6 +98,14 @@
    */
   var filterImage = filterForm.querySelector('.filter-image-preview');
 
+  // browser-cookies
+  var browserCookies = require('browser-cookies');
+  filterImage.className = 'filter-image-preview filter-' + browserCookies.get('upload-filter');
+  if (browserCookies.get('upload-filter')) {
+    var radioInputDefault = filterForm.querySelector('#upload-filter-' + browserCookies.get('upload-filter'));
+    radioInputDefault.checked = true;
+  }
+
   /**
    * @type {HTMLElement}
    */
@@ -268,6 +276,23 @@
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
+
+    // start of cookies
+    var today = new Date();
+    var year = today.getFullYear();
+    var birthDayGraceHopper = new Date(year + '-12-09');
+
+    if (birthDayGraceHopper > today) {
+      birthDayGraceHopper = new Date(--year + '-12-09');
+    }
+
+    var getFullDays = function(date) {
+      return Math.floor(date / 1000 / 60 / 60 / 24);
+    };
+
+    var lifetime = getFullDays(today) - getFullDays(birthDayGraceHopper);
+    browserCookies.set('upload-filter', browserCookies.get('upload-filter'), {expires: lifetime});
+    // end of cookies
   };
 
   /**
@@ -295,6 +320,9 @@
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+
+    // browser-cookies
+    browserCookies.set('upload-filter', selectedFilter);
   };
 
   cleanupResizer();
