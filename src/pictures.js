@@ -14,4 +14,5 @@ var loadPictures = function(address, callback) {
 
 loadPictures('http://localhost:1506/api/pictures?callback=JSONPCallback', function(data) {
   pictures = data;
+  console.log(pictures);
 });
