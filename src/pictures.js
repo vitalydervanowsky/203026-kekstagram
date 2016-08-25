@@ -4,7 +4,7 @@ var picturesContainer = document.querySelector('.pictures');
 var templateElement = document.querySelector('#picture-template');
 var elementToClone;
 
-var pictures = null;
+var pictures = [];
 
 var IMAGE_LOAD_TIMEOUT = 10000;
 
