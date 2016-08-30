@@ -1,9 +1,9 @@
 'use strict';
 
 define([
-  'pictures',
-  'resizer',
-  'upload',
+  './pictures',
+  './resizer',
+  './upload',
 ], function(pictures, resizer, upload) {});
 
 // require('./load-pictures.js');
