@@ -1,9 +1,8 @@
 'use strict';
 
-define([
-  'load-pictures',
-  'get-picture-element',
-], function(loadPictures, getPictureElement) {
+define('pictures',
+  ['load-pictures', 'get-picture-element'],
+  function(loadPictures, getPictureElement) {
   return function() {
     var picturesContainer = document.querySelector('.pictures');
 
