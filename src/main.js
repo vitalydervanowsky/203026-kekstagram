@@ -1,5 +1,9 @@
 'use strict';
 
-require('./pictures.js');
-require('./resizer.js');
-require('./upload.js');
+define([
+  './pictures',
+  './resizer',
+  './upload',
+], function(pictures, resizer, upload) {
+  upload();
+});
