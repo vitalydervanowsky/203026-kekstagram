@@ -15,7 +15,10 @@ define('gallery', function() {
     };
 
     Gallery.prototype.show = function(num) {
-      // onSomethingAction();
+      var self = this;
+      this.closeElement.onclick = function() {
+        self.onCloseClickHandler();
+      };
 
       this.galleryContainer.classList.remove('invisible');
       this.setActivePicture(num);
@@ -33,11 +36,11 @@ define('gallery', function() {
       this.commentsCount = this.galleryContainer.querySelector('.comments-count').innerHTML;
     };
 
+    Gallery.prototype.onCloseClickHandler = function() {
+      self.hide();
+    };
+
     var gallery = new Gallery();
     console.log(gallery.name);
-
-  // var onCloseClickHandler = function() {
-  //   hide();
-  // };
   };
 });
