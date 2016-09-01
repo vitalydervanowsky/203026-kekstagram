@@ -1,6 +1,6 @@
 'use strict';
 
-define('get-picture-element', function() {
+define('picture', function() {
   var templateElement = document.querySelector('#picture-template');
   var elementToClone;
   var IMAGE_LOAD_TIMEOUT = 10000;
