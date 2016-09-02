@@ -1,11 +1,8 @@
 'use strict';
 
 define('pictures',
-  [
-    './load',
-    './picture',
-    './gallery'
-  ], function(load, picture, gallery) {
+  ['./load', './picture', './gallery'],
+  function(load, picture, gallery) {
     (function() {
       var picturesContainer = document.querySelector('.pictures');
 
@@ -16,8 +13,8 @@ define('pictures',
         pictures.forEach(function(pic) {
           picture(pic, picturesContainer);
         });
-
         filtersBlock.classList.remove('hidden');
+        gallery(pictures);
       });
     })();
   });
