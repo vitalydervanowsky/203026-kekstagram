@@ -2,7 +2,7 @@
 
 define('gallery',
   function() {
-    return function() {
+    return function(data) {
       var Gallery = function() {
         this.pictures = [];
         this.activePicture = 0;
@@ -11,8 +11,8 @@ define('gallery',
         this.preview = this.galleryContainer.querySelector('.gallery-overlay-image');
       };
 
-      Gallery.prototype.setPicture = function(data) {
-        this.pictures = data;
+      Gallery.prototype.setPicture = function(data2) {
+        this.pictures = data2;
       };
 
       Gallery.prototype.show = function(num) {
@@ -27,11 +27,12 @@ define('gallery',
 
       Gallery.prototype.hide = function() {
         this.galleryContainer.classList.add('invisible');
+        this.closeElement.onclick = null;
       };
 
       Gallery.prototype.setActivePicture = function(num) {
         this.activePicture = num;
-        // this.src = pictures[this.activePicture].src;
+        this.src = this.pictures[this.activePicture].src;
 
         this.likesCount = this.galleryContainer.querySelector('.likes-count').innerHTML;
         this.commentsCount = this.galleryContainer.querySelector('.comments-count').innerHTML;
@@ -42,6 +43,7 @@ define('gallery',
       };
 
       var gallery = new Gallery();
-      console.log(gallery.preview);
+      gallery.setPicture(data); // где это записать?
+      console.log(gallery.src);
     };
   });
