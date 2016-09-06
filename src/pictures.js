@@ -16,6 +16,8 @@ define('pictures',
         filtersBlock.classList.remove('hidden');
         var gallery = new Gallery();
         gallery.setPictures(pictures);
+
+        // gallery.setActivePicture(0);
       });
     })();
   });
