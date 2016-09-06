@@ -1,7 +1,10 @@
 'use strict';
 
+// var picNum = 0;
+
 define('picture',
-  function() {
+  ['./gallery'],
+  function(Gallery) {
     var templateElement = document.querySelector('#picture-template');
     var elementToClone;
     var IMAGE_LOAD_TIMEOUT = 10000;
@@ -11,8 +14,13 @@ define('picture',
     } else {
       elementToClone = templateElement.querySelector('.picture');
     }
+
     return function(jsonpData, container) {
       var element = elementToClone.cloneNode(true);
+      // console.log(element);
+      element.addEventListener('click', function(evt) {
+        evt.preventDefault();
+      });
       element.querySelector('.picture-likes').textContent = jsonpData.likes;
       element.querySelector('.picture-comments').textContent = jsonpData.comments;
       container.appendChild(element);
@@ -36,6 +44,16 @@ define('picture',
         backgroundImage.src = '';
         element.classList.add('picture-load-failure');
       }, IMAGE_LOAD_TIMEOUT);
+
+      // var gallery = new Gallery();
+
+      // element.onclick = function() {
+      //   gallery.setPictures(element); // где это записать?
+      //   gallery.setActivePicture(picNum);
+      //   console.log(gallery.src);
+      // };
+      // console.log(gallery);
+      // picNum++;
 
       return element;
     };

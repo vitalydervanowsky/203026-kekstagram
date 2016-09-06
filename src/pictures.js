@@ -2,7 +2,7 @@
 
 define('pictures',
   ['./load', './picture', './gallery'],
-  function(load, picture, gallery) {
+  function(load, picture, Gallery) {
     (function() {
       var picturesContainer = document.querySelector('.pictures');
 
@@ -14,7 +14,8 @@ define('pictures',
           picture(pic, picturesContainer);
         });
         filtersBlock.classList.remove('hidden');
-        gallery(pictures);
+        var gallery = new Gallery();
+        gallery.setPictures(pictures);
       });
     })();
   });
