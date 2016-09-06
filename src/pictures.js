@@ -12,12 +12,10 @@ define('pictures',
         var pictures = data;
         var num = 0;
         pictures.forEach(function(pic) {
-          // console.log(num);
           picture(pic, picturesContainer, num);
           num++;
         });
         filtersBlock.classList.remove('hidden');
-        // var gallery = new Gallery();
         gallery.setPictures(pictures);
       });
     })();

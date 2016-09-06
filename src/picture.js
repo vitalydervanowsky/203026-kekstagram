@@ -2,7 +2,7 @@
 
 define('picture',
   ['./gallery'],
-  function(gallery, index) {
+  function(gallery) {
     var templateElement = document.querySelector('#picture-template');
     var elementToClone;
     var IMAGE_LOAD_TIMEOUT = 10000;
@@ -46,7 +46,6 @@ define('picture',
 
       element.onclick = function() {
         gallery.show(index);
-        // console.log(index);
       };
 
       return element;
