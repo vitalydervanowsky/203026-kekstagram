@@ -1,6 +1,6 @@
 'use strict';
 
-define('load-pictures', function() {
+define('load', function() {
   return function(address, callback) {
     var scriptEl = document.createElement('script');
     scriptEl.src = address;
