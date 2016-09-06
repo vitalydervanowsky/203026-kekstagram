@@ -1,10 +1,8 @@
 'use strict';
 
-// var picNum = 0;
-
 define('picture',
   ['./gallery'],
-  function(gallery) {
+  function(gallery, index) {
     var templateElement = document.querySelector('#picture-template');
     var elementToClone;
     var IMAGE_LOAD_TIMEOUT = 10000;
@@ -15,12 +13,13 @@ define('picture',
       elementToClone = templateElement.querySelector('.picture');
     }
 
-    return function(jsonpData, container) {
+    return function(jsonpData, container, index) {
       var element = elementToClone.cloneNode(true);
-      // console.log(element);
+
       element.addEventListener('click', function(evt) {
         evt.preventDefault();
       });
+
       element.querySelector('.picture-likes').textContent = jsonpData.likes;
       element.querySelector('.picture-comments').textContent = jsonpData.comments;
       container.appendChild(element);
@@ -45,15 +44,10 @@ define('picture',
         element.classList.add('picture-load-failure');
       }, IMAGE_LOAD_TIMEOUT);
 
-      // var gallery = new Gallery();
-
-      // element.onclick = function() {
-      //   gallery.setPictures(element); // где это записать?
-      //   gallery.setActivePicture(picNum);
-      //   console.log(gallery.src);
-      // };
-      // console.log(gallery);
-      // picNum++;
+      element.onclick = function() {
+        gallery.show(index);
+        // console.log(index);
+      };
 
       return element;
     };

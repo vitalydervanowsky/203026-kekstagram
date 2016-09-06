@@ -2,7 +2,7 @@
 
 define('pictures',
   ['./load', './picture', './gallery'],
-  function(load, picture, Gallery) {
+  function(load, picture, gallery) {
     (function() {
       var picturesContainer = document.querySelector('.pictures');
 
@@ -10,14 +10,15 @@ define('pictures',
         var filtersBlock = document.querySelector('.filters');
         filtersBlock.classList.add('hidden');
         var pictures = data;
+        var num = 0;
         pictures.forEach(function(pic) {
-          picture(pic, picturesContainer);
+          // console.log(num);
+          picture(pic, picturesContainer, num);
+          num++;
         });
         filtersBlock.classList.remove('hidden');
-        var gallery = new Gallery();
+        // var gallery = new Gallery();
         gallery.setPictures(pictures);
-
-        // gallery.setActivePicture(0);
       });
     })();
   });
