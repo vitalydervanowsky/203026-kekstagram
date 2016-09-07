@@ -2,7 +2,7 @@
 
 define('pictures',
   ['./load', './picture', './gallery'],
-  function(load, picture, gallery) {
+  function(load, Picture, gallery) {
     (function() {
       var picturesContainer = document.querySelector('.pictures');
 
@@ -10,10 +10,8 @@ define('pictures',
         var filtersBlock = document.querySelector('.filters');
         filtersBlock.classList.add('hidden');
         var pictures = data;
-        var num = 0;
-        pictures.forEach(function(pic) {
-          picture(pic, picturesContainer, num);
-          num++;
+        pictures.forEach(function(picData, index) {
+          picturesContainer.appendChild(new Picture(picData, index).element);
         });
         filtersBlock.classList.remove('hidden');
         gallery.setPictures(pictures);
