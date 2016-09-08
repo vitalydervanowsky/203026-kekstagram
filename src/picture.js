@@ -1,6 +1,6 @@
 'use strict';
 
-define('picture',
+define('Picture',
   ['./gallery'],
   function(gallery) {
     var templateElement = document.querySelector('#picture-template');
@@ -13,16 +13,15 @@ define('picture',
       elementToClone = templateElement.querySelector('.picture');
     }
 
-    return function(jsonpData, container, index) {
+    var getPictureElement = function(data, index) {
       var element = elementToClone.cloneNode(true);
 
       element.addEventListener('click', function(evt) {
         evt.preventDefault();
       });
 
-      element.querySelector('.picture-likes').textContent = jsonpData.likes;
-      element.querySelector('.picture-comments').textContent = jsonpData.comments;
-      container.appendChild(element);
+      element.querySelector('.picture-likes').textContent = data.likes;
+      element.querySelector('.picture-comments').textContent = data.comments;
 
       var backgroundImage = new Image();
 
@@ -37,7 +36,7 @@ define('picture',
         element.classList.add('picture-load-failure');
       };
 
-      backgroundImage.src = jsonpData.url;
+      backgroundImage.src = data.url;
 
       var backgroundLoadTimeout = setTimeout(function() {
         backgroundImage.src = '';
@@ -50,4 +49,24 @@ define('picture',
 
       return element;
     };
+
+    var Picture = function(data, i) {
+      this.data = data[i];
+      this.element = getPictureElement(data, i);
+      this.onPictureClick = this.onPictureClick.bind(this);
+      this.element.addEventListener('click', this.onBackgroundClick);
+
+    };
+
+    Picture.prototype.onPictureClick = function(evt) {
+      if (evt.target.classList.contains('picture')) {
+        gallery.show(this.data.pictures);
+      }
+    };
+
+    Picture.prototype.remove = function() {
+      this.element.removeEventListener('click', this.onPictureClick);
+    };
+
+    return Picture;
   });
