@@ -1,6 +1,6 @@
 'use strict';
 
-define('Picture',
+define('picture',
   ['./gallery'],
   function(gallery) {
     var templateElement = document.querySelector('#picture-template');
