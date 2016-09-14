@@ -197,11 +197,7 @@ define(function() {
               var areFormValuesNotNegative = posStartX >= 0 && posStartY >= 0 && cropSizeValue >= 0;
               var areValuesValid = isXValid && isYValid && areFormValuesNotNegative;
 
-              if (areValuesValid) {
-                submitBtn.disabled = false;
-              } else {
-                submitBtn.disabled = true;
-              }
+              submitBtn.disabled = !areValuesValid;
             };
 
             resizeForm.addEventListener('change', function() {
