@@ -148,7 +148,7 @@ define(function() {
      * и показывается форма кадрирования.
      * @param {Event} evt
      */
-    uploadForm.onchange = function(evt) {
+    uploadForm.addEventListener('change', function(evt) {
       var element = evt.target;
       if (element.id === 'upload-file') {
         // Проверка типа загружаемого файла, тип должен быть изображением
@@ -158,10 +158,11 @@ define(function() {
 
           showMessage(Action.UPLOADING);
 
-          fileReader.onload = function() {
+          fileReader.addEventListener('load', function() {
             cleanupResizer();
 
             currentResizer = new Resizer(fileReader.result);
+
             currentResizer.setElement(resizeForm);
             uploadMessage.classList.add('invisible');
 
@@ -170,42 +171,54 @@ define(function() {
 
             hideMessage();
 
-            // start of validation
             var resizeX = resizeForm.querySelector('#resize-x');
             var resizeY = resizeForm.querySelector('#resize-y');
             var resizeSize = resizeForm.querySelector('#resize-size');
 
+            // start of validation
             resizeX.min = 0;
             resizeX.max = currentResizer._image.naturalWidth - 1;
             resizeY.min = 0;
             resizeY.max = currentResizer._image.naturalHeight - 1;
 
-            var setSizeConstraint = function(sizeCrop, posStartX, posStartY) {
+            var setSizeConstraint = function(posStartX, posStartY, sizeCrop) {
               var submitBtn = resizeForm.querySelector('#resize-fwd');
+              posStartX = parseInt(posStartX, 10);
+              posStartY = parseInt(posStartY, 10);
 
               sizeCrop.min = 1;
               sizeCrop.max = Math.min(
                 (currentResizer._image.naturalWidth - posStartX),
                 (currentResizer._image.naturalHeight - posStartY));
 
-              var areValuesValid = (posStartX + sizeCrop.value) <= currentResizer._image.naturalWidth &&
-                (posStartY + sizeCrop.value) <= currentResizer._image.naturalHeight;
+              var areValuesValid = posStartX + parseInt(sizeCrop.value, 10) <= currentResizer._image.naturalWidth && posStartY + parseInt(sizeCrop.value, 10) <= currentResizer._image.naturalHeight;
 
-              if (!posStartX || !posStartY || !sizeCrop.value) {
-                submitBtn.disabled = true;
-              } else if (areValuesValid) {
+              if (areValuesValid && posStartX >= 0 && posStartY >= 0 && parseInt(sizeCrop.value, 10) >= 0) {
                 submitBtn.disabled = false;
+              } else {
+                submitBtn.disabled = true;
               }
             };
 
-            resizeForm.onchange = function() {
-              setSizeConstraint(resizeSize, resizeX.value, resizeY.value);
-            };
+            resizeForm.addEventListener('change', function() {
+              currentResizer.setConstraint(parseInt(resizeX.value, 10), parseInt(resizeY.value, 10), parseInt(resizeSize.value, 10));
+            });
 
-            setSizeConstraint(resizeSize, resizeX.value, resizeY.value);
+
 
             // end of validation
-          };
+
+            var fromResizerToForm = function() {
+              resizeX.value = currentResizer.getConstraint().x;
+              resizeY.value = currentResizer.getConstraint().y;
+              resizeSize.value = currentResizer.getConstraint().side;
+            };
+
+            window.addEventListener('resizerchange', function() {
+              fromResizerToForm();
+              setSizeConstraint(resizeX.value, resizeY.value, resizeSize);
+            });
+          });
 
           fileReader.readAsDataURL(element.files[0]);
         } else {
@@ -213,14 +226,14 @@ define(function() {
           showMessage(Action.ERROR);
         }
       }
-    };
+    });
 
     /**
      * Обработка сброса формы кадрирования. Возвращает в начальное состояние
      * и обновляет фон.
      * @param {Event} evt
      */
-    resizeForm.onreset = function(evt) {
+    resizeForm.addEventListener('reset', function(evt) {
       evt.preventDefault();
 
       cleanupResizer();
@@ -228,14 +241,14 @@ define(function() {
 
       resizeForm.classList.add('invisible');
       uploadForm.classList.remove('invisible');
-    };
+    });
 
     /**
      * Обработка отправки формы кадрирования. Если форма валидна, экспортирует
      * кропнутое изображение в форму добавления фильтра и показывает ее.
      * @param {Event} evt
      */
-    resizeForm.onsubmit = function(evt) {
+    resizeForm.addEventListener('submit', function(evt) {
       evt.preventDefault();
 
       if (resizeFormIsValid()) {
@@ -251,25 +264,25 @@ define(function() {
         resizeForm.classList.add('invisible');
         filterForm.classList.remove('invisible');
       }
-    };
+    });
 
     /**
      * Сброс формы фильтра. Показывает форму кадрирования.
      * @param {Event} evt
      */
-    filterForm.onreset = function(evt) {
+    filterForm.addEventListener('reset', function(evt) {
       evt.preventDefault();
 
       filterForm.classList.add('invisible');
       resizeForm.classList.remove('invisible');
-    };
+    });
 
     /**
      * Отправка формы фильтра. Возвращает в начальное состояние, предварительно
      * записав сохраненный фильтр в cookie.
      * @param {Event} evt
      */
-    filterForm.onsubmit = function(evt) {
+    filterForm.addEventListener('submit', function(evt) {
       evt.preventDefault();
 
       cleanupResizer();
@@ -295,13 +308,13 @@ define(function() {
       var lifetime = getFullDays(today) - getFullDays(birthDayGraceHopper);
       browserCookies.set('upload-filter', browserCookies.get('upload-filter'), {expires: lifetime});
       // end of cookies
-    };
+    });
 
     /**
      * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
      * выбранному значению в форме.
      */
-    filterForm.onchange = function() {
+    filterForm.addEventListener('change', function() {
       if (!filterMap) {
         // Ленивая инициализация. Объект не создается до тех пор, пока
         // не понадобится прочитать его в первый раз, а после этого запоминается
@@ -325,7 +338,7 @@ define(function() {
 
       // browser-cookies
       browserCookies.set('upload-filter', selectedFilter);
-    };
+    });
 
     cleanupResizer();
     updateBackground();
