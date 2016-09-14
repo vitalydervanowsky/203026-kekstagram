@@ -181,19 +181,23 @@ define(function() {
             resizeY.min = 0;
             resizeY.max = currentResizer._image.naturalHeight - 1;
 
-            var setSizeConstraint = function(posStartX, posStartY, sizeCrop) {
+            var setSizeConstraint = function(posStartX, posStartY, cropSize) {
               var submitBtn = resizeForm.querySelector('#resize-fwd');
               posStartX = parseInt(posStartX, 10);
               posStartY = parseInt(posStartY, 10);
+              var cropSizeValue = parseInt(cropSize.value, 10);
 
-              sizeCrop.min = 1;
-              sizeCrop.max = Math.min(
+              cropSize.min = 1;
+              cropSize.max = Math.min(
                 (currentResizer._image.naturalWidth - posStartX),
                 (currentResizer._image.naturalHeight - posStartY));
 
-              var areValuesValid = posStartX + parseInt(sizeCrop.value, 10) <= currentResizer._image.naturalWidth && posStartY + parseInt(sizeCrop.value, 10) <= currentResizer._image.naturalHeight;
+              var isXValid = posStartX + cropSizeValue <= currentResizer._image.naturalWidth;
+              var isYValid = posStartY + cropSizeValue <= currentResizer._image.naturalHeight;
+              var areFormValuesNotNegative = posStartX >= 0 && posStartY >= 0 && cropSizeValue >= 0;
+              var areValuesValid = isXValid && isYValid && areFormValuesNotNegative;
 
-              if (areValuesValid && posStartX >= 0 && posStartY >= 0 && parseInt(sizeCrop.value, 10) >= 0) {
+              if (areValuesValid) {
                 submitBtn.disabled = false;
               } else {
                 submitBtn.disabled = true;
