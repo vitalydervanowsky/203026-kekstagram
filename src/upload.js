@@ -204,8 +204,6 @@ define(function() {
               currentResizer.setConstraint(parseInt(resizeX.value, 10), parseInt(resizeY.value, 10), parseInt(resizeSize.value, 10));
             });
 
-
-
             // end of validation
 
             var fromResizerToForm = function() {

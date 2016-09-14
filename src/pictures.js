@@ -16,6 +16,11 @@ define('pictures',
       var pageSize = 12;
       var pictures = [];
       var index = 0;
+      var storageFilter = localStorage.getItem('filter');
+
+      if (storageFilter) {
+        activeFilter = storageFilter;
+      }
 
       var renderPictures = function(loadedPictures) {
         loadedPictures.forEach(function(picData) {
@@ -42,12 +47,14 @@ define('pictures',
         index = 0;
         activeFilter = filterID;
         pageNumber = 0;
+        filtersBlock.querySelector('#' + activeFilter).checked = true;
         loadPictures(filterID, pageNumber);
       };
 
       filtersBlock.addEventListener('change', function(evt) {
         if (evt.target.classList.contains('filters-radio')) {
           changeFilter(evt.target.id);
+          localStorage.setItem('filter', evt.target.id);
         }
       });
 
