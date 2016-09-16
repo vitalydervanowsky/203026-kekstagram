@@ -54,18 +54,13 @@ define('picture',
       this.data = data[i];
       this.element = getPictureElement(data, i);
       this.onPictureClick = this.onPictureClick.bind(this);
-      this.element.addEventListener('click', this.onBackgroundClick);
-
+      this.element.addEventListener('click', this.onPictureClick);
     };
 
     Picture.prototype.onPictureClick = function(evt) {
       if (evt.target.classList.contains('picture')) {
         gallery.show(this.data.pictures);
       }
-    };
-
-    Picture.prototype.remove = function() {
-      this.element.removeEventListener('click', this.onPictureClick);
     };
 
     return Picture;
