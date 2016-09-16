@@ -17,7 +17,6 @@ define('gallery',
     };
 
     Gallery.prototype.show = function(num) {
-      // var self = this;
       this.hide = this.hide.bind(this);
       this.closeElement.addEventListener('click', this.hide);
       this.galleryContainer.classList.remove('invisible');
