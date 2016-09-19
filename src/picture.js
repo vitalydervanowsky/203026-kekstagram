@@ -13,7 +13,7 @@ define('picture',
       elementToClone = templateElement.querySelector('.picture');
     }
 
-    var getPictureElement = function(data, index) {
+    var getPictureElement = function(data) {
       var element = elementToClone.cloneNode(true);
 
       element.addEventListener('click', function(evt) {
@@ -44,15 +44,15 @@ define('picture',
       }, IMAGE_LOAD_TIMEOUT);
 
       element.onclick = function() {
-        gallery.show(index);
+        location.hash = 'photo/' + data.url;
       };
 
       return element;
     };
 
-    var Picture = function(data, i) {
-      this.data = data[i];
-      this.element = getPictureElement(data, i);
+    var Picture = function(data) {
+      this.data = data;
+      this.element = getPictureElement(data);
       this.onPictureClick = this.onPictureClick.bind(this);
       this.element.addEventListener('click', this.onPictureClick);
     };
