@@ -37,6 +37,9 @@ define('pictures',
         });
         pictures.push.apply(pictures, loadedPictures);
         gallery.setPictures(pictures);
+        if (window.innerHeight > footer.getBoundingClientRect().bottom) {
+          loadPictures(activeFilter, ++pageNumber);
+        }
 
         onHashChange();
       };
