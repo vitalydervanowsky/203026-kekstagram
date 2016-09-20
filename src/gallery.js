@@ -10,6 +10,8 @@ define('gallery',
       this.previewElement = this.galleryContainer.querySelector('.gallery-overlay-image');
       this.onPreviewElementClick = this.onPreviewElementClick.bind(this);
       this.previewElement.addEventListener('click', this.onPreviewElementClick);
+      this.likes = this.galleryContainer.querySelector('.likes-count');
+      this.comments = this.galleryContainer.querySelector('.comments-count');
     };
 
     Gallery.prototype.setPictures = function(data) {
@@ -42,8 +44,8 @@ define('gallery',
       this.activePicture = i;
       this.likesCount = pictures[this.activePicture].likes;
       this.commentsCount = pictures[this.activePicture].comments;
-      this.galleryContainer.querySelector('.likes-count').innerHTML = this.likesCount;
-      this.galleryContainer.querySelector('.comments-count').innerHTML = this.commentsCount;
+      this.likes.innerHTML = this.likesCount;
+      this.comments.innerHTML = this.commentsCount;
     };
 
     Gallery.prototype.onPreviewElementClick = function() {
