@@ -13,8 +13,9 @@ define('gallery',
     };
 
     Gallery.prototype.setPictures = function(data) {
-      window.addEventListener('hashchange', this.onHashChange);
       this.pictures = data;
+      this.onHashChange = this.onHashChange.bind(this);
+      window.addEventListener('hashchange', this.onHashChange);
     };
 
     Gallery.prototype.show = function(hash) {
@@ -26,38 +27,25 @@ define('gallery',
     Gallery.prototype.hide = function() {
       location.hash = '';
       this.closeElement.onclick = null;
-      window.addEventListener('hashchange', this.onHashChange);
     };
 
     Gallery.prototype.setActivePicture = function(picture) {
-      if (typeof picture === 'number') {
-        this.activePicture = picture;
-        this.previewElement.src = this.pictures[picture].url;
-        this.likesCount = this.pictures[picture].likes;
-        this.commentsCount = this.pictures[picture].comments;
-      } else {
-        this.previewElement.src = picture.match(/#photo\/(\S+)/)[1];
-        for(var i = 0; i < this.pictures.length; i++) {
-          if (this.pictures[i].url === picture.match(/#photo\/(\S+)/)[1]) {
-            this.activePicture = i;
-            this.likesCount = this.pictures[i].likes;
-            this.commentsCount = this.pictures[i].comments;
-            i = this.pictures.length;
-          }
+      var src = picture.match(/#photo\/(\S+)/)[1];
+      this.previewElement.src = src;
+      for(var i = 0; i < this.pictures.length; i++) {
+        if (this.pictures[i].url === src) {
+          this.activePicture = i;
+          i = this.pictures.length;
         }
       }
+      this.likesCount = this.pictures[this.activePicture].likes;
+      this.commentsCount = this.pictures[this.activePicture].comments;
       this.galleryContainer.querySelector('.likes-count').innerHTML = this.likesCount;
       this.galleryContainer.querySelector('.comments-count').innerHTML = this.commentsCount;
     };
 
     Gallery.prototype.onPreviewElementClick = function() {
-      window.removeEventListener('hashchange', this.onHashChange);
-      if (this.activePicture < this.pictures.length - 1) {
-        this.activePicture++;
-      } else {
-        this.activePicture = 0;
-      }
-      this.setActivePicture(this.activePicture);
+      this.activePicture = (this.activePicture < this.pictures.length - 1) ? ++this.activePicture : 0;
       location.hash = 'photo/' + this.pictures[this.activePicture].url;
     };
 

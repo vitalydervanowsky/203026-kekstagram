@@ -12,7 +12,6 @@ define('pictures',
       var filtersBlock = document.querySelector('.filters');
       filtersBlock.classList.remove('hidden');
       var footer = document.querySelector('footer');
-      // var galleryContainer = document.querySelector('.gallery-overlay');
       var pageNumber = 0;
       var pageSize = 12;
       var pictures = [];
