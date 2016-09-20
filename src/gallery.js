@@ -13,6 +13,7 @@ define('gallery',
     };
 
     Gallery.prototype.setPictures = function(data) {
+      window.addEventListener('hashchange', this.onHashChange);
       this.pictures = data;
     };
 
@@ -58,6 +59,15 @@ define('gallery',
       }
       this.setActivePicture(this.activePicture);
       location.hash = 'photo/' + this.pictures[this.activePicture].url;
+    };
+
+    Gallery.prototype.onHashChange = function() {
+      if (location.hash) {
+        this.galleryContainer.classList.remove('invisible');
+        this.show(location.hash);
+      } else {
+        this.galleryContainer.classList.add('invisible');
+      }
     };
 
     return new Gallery();

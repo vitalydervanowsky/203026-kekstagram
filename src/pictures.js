@@ -12,7 +12,7 @@ define('pictures',
       var filtersBlock = document.querySelector('.filters');
       filtersBlock.classList.remove('hidden');
       var footer = document.querySelector('footer');
-      var galleryContainer = document.querySelector('.gallery-overlay');
+      // var galleryContainer = document.querySelector('.gallery-overlay');
       var pageNumber = 0;
       var pageSize = 12;
       var pictures = [];
@@ -21,15 +21,6 @@ define('pictures',
       if (storageFilter) {
         activeFilter = storageFilter;
       }
-
-      var onHashChange = function() {
-        if (location.hash) {
-          galleryContainer.classList.remove('invisible');
-          gallery.show(location.hash);
-        } else {
-          galleryContainer.classList.add('invisible');
-        }
-      };
 
       var renderPictures = function(loadedPictures) {
         loadedPictures.forEach(function(picData) {
@@ -41,7 +32,7 @@ define('pictures',
           loadPictures(activeFilter, ++pageNumber);
         }
 
-        onHashChange();
+        gallery.onHashChange();
       };
 
       var loadPictures = function(filter, currentPageNumber) {
@@ -84,7 +75,5 @@ define('pictures',
       });
 
       changeFilter(activeFilter);
-
-      window.addEventListener('hashchange', onHashChange);
     })();
   });
