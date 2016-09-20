@@ -30,16 +30,19 @@ define('gallery',
     };
 
     Gallery.prototype.setActivePicture = function(picture) {
+      var pictures = this.pictures;
       var src = picture.match(/#photo\/(\S+)/)[1];
       this.previewElement.src = src;
-      for(var i = 0; i < this.pictures.length; i++) {
-        if (this.pictures[i].url === src) {
-          this.activePicture = i;
-          i = this.pictures.length;
+      var i = 0;
+      for(i; i < pictures.length; i++) {
+        if (pictures[i].url === src) {
+          break;
         }
       }
-      this.likesCount = this.pictures[this.activePicture].likes;
-      this.commentsCount = this.pictures[this.activePicture].comments;
+      this.activePicture = i;
+      console.log(this.activePicture);
+      this.likesCount = pictures[this.activePicture].likes;
+      this.commentsCount = pictures[this.activePicture].comments;
       this.galleryContainer.querySelector('.likes-count').innerHTML = this.likesCount;
       this.galleryContainer.querySelector('.comments-count').innerHTML = this.commentsCount;
     };
