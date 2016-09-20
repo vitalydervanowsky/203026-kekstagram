@@ -204,12 +204,10 @@ define(function() {
               currentResizer.setConstraint(parseInt(resizeX.value, 10), parseInt(resizeY.value, 10), parseInt(resizeSize.value, 10));
             });
 
-            // end of validation
-
             var fromResizerToForm = function() {
-              resizeX.value = currentResizer.getConstraint().x;
-              resizeY.value = currentResizer.getConstraint().y;
-              resizeSize.value = currentResizer.getConstraint().side;
+              resizeX.value = Math.round(currentResizer.getConstraint().x);
+              resizeY.value = Math.round(currentResizer.getConstraint().y);
+              resizeSize.value = Math.round(currentResizer.getConstraint().side);
             };
 
             window.addEventListener('resizerchange', function() {

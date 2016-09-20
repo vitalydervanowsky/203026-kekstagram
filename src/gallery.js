@@ -10,40 +10,56 @@ define('gallery',
       this.previewElement = this.galleryContainer.querySelector('.gallery-overlay-image');
       this.onPreviewElementClick = this.onPreviewElementClick.bind(this);
       this.previewElement.addEventListener('click', this.onPreviewElementClick);
+      this.likes = this.galleryContainer.querySelector('.likes-count');
+      this.comments = this.galleryContainer.querySelector('.comments-count');
     };
 
     Gallery.prototype.setPictures = function(data) {
       this.pictures = data;
+      this.onHashChange = this.onHashChange.bind(this);
+      window.addEventListener('hashchange', this.onHashChange);
     };
 
-    Gallery.prototype.show = function(num) {
+    Gallery.prototype.show = function(hash) {
       this.hide = this.hide.bind(this);
       this.closeElement.addEventListener('click', this.hide);
-      this.galleryContainer.classList.remove('invisible');
-      this.setActivePicture(num);
+      this.setActivePicture(hash);
     };
 
     Gallery.prototype.hide = function() {
-      this.galleryContainer.classList.add('invisible');
+      location.hash = '';
       this.closeElement.onclick = null;
     };
 
     Gallery.prototype.setActivePicture = function(picture) {
-      this.activePicture = picture;
-      this.previewElement.src = this.pictures[picture].url;
-      this.likesCount = this.pictures[picture].likes;
-      this.commentsCount = this.pictures[picture].comments;
-      this.galleryContainer.querySelector('.likes-count').innerHTML = this.likesCount;
-      this.galleryContainer.querySelector('.comments-count').innerHTML = this.commentsCount;
+      var pictures = this.pictures;
+      var src = picture.match(/#photo\/(\S+)/)[1];
+      this.previewElement.src = src;
+      var i = 0;
+      for(i; i < pictures.length; i++) {
+        if (pictures[i].url === src) {
+          break;
+        }
+      }
+      this.activePicture = i;
+      this.likesCount = pictures[this.activePicture].likes;
+      this.commentsCount = pictures[this.activePicture].comments;
+      this.likes.innerHTML = this.likesCount;
+      this.comments.innerHTML = this.commentsCount;
     };
 
     Gallery.prototype.onPreviewElementClick = function() {
-      if (this.activePicture < this.pictures.length - 1) {
-        this.activePicture++;
+      this.activePicture = (this.activePicture < this.pictures.length - 1) ? ++this.activePicture : 0;
+      location.hash = 'photo/' + this.pictures[this.activePicture].url;
+    };
+
+    Gallery.prototype.onHashChange = function() {
+      if (location.hash) {
+        this.galleryContainer.classList.remove('invisible');
+        this.show(location.hash);
       } else {
-        this.activePicture = 0;
+        this.galleryContainer.classList.add('invisible');
       }
-      this.setActivePicture(this.activePicture);
     };
 
     return new Gallery();
