@@ -15,7 +15,6 @@ define('pictures',
       var pageNumber = 0;
       var pageSize = 12;
       var pictures = [];
-      var index = 0;
       var storageFilter = localStorage.getItem('filter');
 
       if (storageFilter) {
@@ -24,10 +23,15 @@ define('pictures',
 
       var renderPictures = function(loadedPictures) {
         loadedPictures.forEach(function(picData) {
-          picturesContainer.appendChild(new Picture(picData, index++).element);
+          picturesContainer.appendChild(new Picture(picData).element);
         });
         pictures.push.apply(pictures, loadedPictures);
         gallery.setPictures(pictures);
+        if (window.innerHeight > footer.getBoundingClientRect().bottom) {
+          loadPictures(activeFilter, ++pageNumber);
+        }
+
+        gallery.onHashChange();
       };
 
       var loadPictures = function(filter, currentPageNumber) {
@@ -44,7 +48,6 @@ define('pictures',
       var changeFilter = function(filterID) {
         picturesContainer.innerHTML = '';
         pictures = [];
-        index = 0;
         activeFilter = filterID;
         pageNumber = 0;
         filtersBlock.querySelector('#' + activeFilter).checked = true;
