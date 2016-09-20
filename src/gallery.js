@@ -40,7 +40,6 @@ define('gallery',
         }
       }
       this.activePicture = i;
-      console.log(this.activePicture);
       this.likesCount = pictures[this.activePicture].likes;
       this.commentsCount = pictures[this.activePicture].comments;
       this.galleryContainer.querySelector('.likes-count').innerHTML = this.likesCount;
